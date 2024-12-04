@@ -8,8 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-  useRouteLoaderData,
-  data as rrData } from 'react-router';
+  useRouteLoaderData } from 'react-router';
 
 import type { 
   ActionFunctionArgs, 
@@ -48,11 +47,7 @@ export const loader = (args: LoaderFunctionArgs) =>
     args,
     async () => {
       const signInUrl = await getSignInUrl();
-      return new Response(JSON.stringify({ signInUrl }), {
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-      });
+      return { signInUrl };
     },
     { debug: true }
   );

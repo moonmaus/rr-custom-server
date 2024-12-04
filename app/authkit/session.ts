@@ -1,4 +1,4 @@
-import { data as rrData, redirect } from 'react-router';
+import { redirect } from 'react-router';
 import type { LoaderFunctionArgs, SessionData } from 'react-router';
 import { WORKOS_CLIENT_ID, WORKOS_COOKIE_PASSWORD } from './env-variables.js';
 import type { AccessToken, AuthorizedData, UnauthorizedData, AuthKitLoaderOptions, Session } from './interfaces.js';
@@ -176,17 +176,14 @@ async function handleAuthLoader(
   session?: Session,
 ) {
   if (!loader) {
-    // Use Response instead of json
-    return new Response(JSON.stringify(auth), {
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        ...(session ? session.headers : {}),
-      },
-    });
+    // Return raw object if no loader is provided
+    return {
+      ...auth,
+      ...(session ? { headers: session.headers } : {}),
+    };
   }
 
-  // If there's a custom loader, get the resulting data and return it with our
-  // auth data plus session cookie header
+  // If there's a custom loader, get the resulting data
   const loaderResult = await loader({ ...args, auth: auth as AuthorizedData });
 
   if (loaderResult instanceof Response) {
@@ -195,34 +192,22 @@ async function handleAuthLoader(
       return loaderResult;
     }
 
-    const newResponse = new Response(loaderResult.body, loaderResult);
-    const data = await newResponse.json();
+    const data = await loaderResult.json();
 
-    // Set the content type in case the user returned a Response instead of the
-    // json helper method
-    newResponse.headers.set("Content-Type", "application/json; charset=utf-8");
-    if (session) {
-      newResponse.headers.append("Set-Cookie", session.headers["Set-Cookie"]);
-    }
-
-    // Convert json({...data, ...auth}, newResponse) to new Response
-    return new Response(JSON.stringify({ ...data, ...auth }), {
-      headers: {
-        ...Object.fromEntries(newResponse.headers.entries()),
-      },
-      status: newResponse.status,
-      statusText: newResponse.statusText,
-    });
+    // Merge data with auth and session cookie if applicable
+    return {
+      ...data,
+      ...auth,
+      ...(session ? { "Set-Cookie": session.headers["Set-Cookie"] } : {}),
+    };
   }
 
   // If the loader returns a non-Response, assume it's a data object
-  // Convert json({...loaderResult, ...auth}, session ? { headers: { ...session.headers } } : undefined) to new Response
-  return new Response(JSON.stringify({ ...loaderResult, ...auth }), {
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...(session ? session.headers : {}),
-    },
-  });
+  return {
+    ...loaderResult,
+    ...auth,
+    ...(session ? { headers: session.headers } : {}),
+  };
 }
 
 

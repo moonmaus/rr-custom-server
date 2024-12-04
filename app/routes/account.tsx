@@ -1,6 +1,6 @@
 import type { Route } from "./+types/account";
 
-import { useLoaderData, data as rrData } from 'react-router';
+import { useLoaderData } from 'react-router';
 import type { LoaderFunctionArgs } from 'react-router';
 import { authkitLoader } from '~/authkit';
 // import { authkitLoader } from '@workos-inc/authkit-react-router';
@@ -10,15 +10,10 @@ export const loader = (args: LoaderFunctionArgs) =>
   authkitLoader(
     args,
     async () => {
-      return new Response(JSON.stringify({ ensureSignedIn: true }), {
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-      });
+      return { ensureSignedIn: true };
     },
     { debug: true }
   );
-
 
 type AuthLoaderData = {
   ensureSignedIn: boolean;
