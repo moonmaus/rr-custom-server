@@ -11,5 +11,13 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true
-  }
+  },
+  "exclude": [
+    ".scratch",
+    ".queue",
+    "node_modules",
+    "**/*.old.*",
+    "**/*.scratch.*",
+    "**/*.test.*",
+  ]
 }

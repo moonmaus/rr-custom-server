@@ -1,7 +1,44 @@
-.env
-!.env.example
-.DS_Store
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 .react-router
+.yarn/install-state.gz
 build
-node_modules
+
+# testing
+/coverage
+
+# next.js
+.vercel/
+/.next/
+/out/
+next-env.d.ts
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*
+!.env.example
+
+# turbo
+.turbo
+
+# typescript
 *.tsbuildinfo
+
+.contentlayer
+
+.queue
+.scratch
+*.scratch.*

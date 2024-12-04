@@ -18,4 +18,8 @@ export default defineConfig(({ isSsrBuild }) => ({
     },
   },
   plugins: [reactRouter(), tsconfigPaths()],
+  ssr: {
+    noExternal: ["remix-utils"],
+  },
 }));
+
