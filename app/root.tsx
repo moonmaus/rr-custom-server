@@ -47,12 +47,16 @@ export const loader = (args: LoaderFunctionArgs) =>
   authkitLoader(
     args,
     async () => {
-      return rrData({
-        signInUrl: await getSignInUrl(),
+      const signInUrl = await getSignInUrl();
+      return new Response(JSON.stringify({ signInUrl }), {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
       });
     },
     { debug: true }
   );
+
 
 export function useRootLoaderData() {
   return useRouteLoaderData<typeof loader>('root');

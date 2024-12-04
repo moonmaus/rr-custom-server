@@ -10,12 +10,15 @@ export const loader = (args: LoaderFunctionArgs) =>
   authkitLoader(
     args,
     async () => {
-      return rrData({
-        ensureSignedIn: true,
+      return new Response(JSON.stringify({ ensureSignedIn: true }), {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+        },
       });
     },
     { debug: true }
   );
+
 
 type AuthLoaderData = {
   ensureSignedIn: boolean;

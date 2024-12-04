@@ -176,7 +176,13 @@ async function handleAuthLoader(
   session?: Session,
 ) {
   if (!loader) {
-    return rrData(auth, session ? { headers: { ...session.headers } } : undefined);
+    // Use Response instead of json
+    return new Response(JSON.stringify(auth), {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        ...(session ? session.headers : {}),
+      },
+    });
   }
 
   // If there's a custom loader, get the resulting data and return it with our
@@ -194,17 +200,31 @@ async function handleAuthLoader(
 
     // Set the content type in case the user returned a Response instead of the
     // json helper method
-    newResponse.headers.set('Content-Type', 'application/json; charset=utf-8');
+    newResponse.headers.set("Content-Type", "application/json; charset=utf-8");
     if (session) {
-      newResponse.headers.append('Set-Cookie', session.headers['Set-Cookie']);
+      newResponse.headers.append("Set-Cookie", session.headers["Set-Cookie"]);
     }
 
-    return rrData({ ...data, ...auth }, newResponse);
+    // Convert json({...data, ...auth}, newResponse) to new Response
+    return new Response(JSON.stringify({ ...data, ...auth }), {
+      headers: {
+        ...Object.fromEntries(newResponse.headers.entries()),
+      },
+      status: newResponse.status,
+      statusText: newResponse.statusText,
+    });
   }
 
   // If the loader returns a non-Response, assume it's a data object
-  return rrData({ ...loaderResult, ...auth }, session ? { headers: { ...session.headers } } : undefined);
+  // Convert json({...loaderResult, ...auth}, session ? { headers: { ...session.headers } } : undefined) to new Response
+  return new Response(JSON.stringify({ ...loaderResult, ...auth }), {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      ...(session ? session.headers : {}),
+    },
+  });
 }
+
 
 async function terminateSession(request: Request) {
   const encryptedSession = await getSession(request.headers.get('Cookie'));
