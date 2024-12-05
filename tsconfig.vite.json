@@ -21,6 +21,7 @@
       "~/*": ["./app/*"]
     },
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true
   }
 }

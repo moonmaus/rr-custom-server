@@ -1,3 +1,5 @@
+import type { Route } from './+types/root';
+
 import {
   Form,
   isRouteErrorResponse,
@@ -14,8 +16,6 @@ import type {
   ActionFunctionArgs, 
   LinksFunction, 
   LoaderFunctionArgs } from 'react-router';
-  
-import type { Route } from './+types/root';
 
 import {
   getSignInUrl,

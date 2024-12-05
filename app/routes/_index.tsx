@@ -1,5 +1,3 @@
-import type { Route } from "./+types/_index";
-
 import { Link } from 'react-router';
 import type { ActionFunctionArgs, MetaFunction } from 'react-router';
 import { signOut } from '~/authkit';

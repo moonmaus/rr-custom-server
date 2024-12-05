@@ -1,5 +1,3 @@
-import type { Route } from "./+types/account";
-
 import { useLoaderData } from 'react-router';
 import type { LoaderFunctionArgs } from 'react-router';
 import { authkitLoader } from '~/authkit';

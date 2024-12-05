@@ -1,4 +1,4 @@
-import { OauthTokens, User } from '@workos-inc/node';
+import type { OauthTokens, User } from '@workos-inc/node';
 
 export interface HandleAuthOptions {
   returnPathname?: string;

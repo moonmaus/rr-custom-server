@@ -1,9 +1,10 @@
-import { HandleAuthOptions } from './interfaces.js';
+import type { HandleAuthOptions } from './interfaces.js';
+import type { LoaderFunctionArgs } from 'react-router';
 import { WORKOS_CLIENT_ID } from './env-variables.js';
 import { workos } from './workos.js';
 import { encryptSession } from './session.js';
 import { getSession, commitSession, cookieName } from './cookie.js';
-import { redirect, data, LoaderFunctionArgs } from 'react-router';
+import { redirect, data } from 'react-router';
 
 export function authLoader(options: HandleAuthOptions = {}) {
   return async function loader({ request }: LoaderFunctionArgs) {
