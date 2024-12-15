@@ -4,7 +4,6 @@ import { terminateSession } from './session.js';
 async function getSignInUrl(returnPathname?: string) {
 
   const url = await getAuthorizationUrl({ returnPathname, screenHint: 'sign-in' });
-  console.log('url >>>>>>>>>>>>>', url);
   return url;
 
   // return getAuthorizationUrl({ returnPathname, screenHint: 'sign-in' });

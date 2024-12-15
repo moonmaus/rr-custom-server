@@ -4,8 +4,7 @@ import { useRootLoaderData } from '~/root';
 
 export default function SignInButton({ large = false }: { large?: boolean }) {
   
-  const rootLoaderData = useRootLoaderData();
-  const { user, signInUrl } = (rootLoaderData as unknown) as { user: any, signInUrl: any } || {};
+  const { user, signInUrl } = useRootLoaderData();
 
   if (user) {
     return (

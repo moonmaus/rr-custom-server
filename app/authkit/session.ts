@@ -118,8 +118,6 @@ async function authkitLoader<Data = unknown>(
 
   const { request } = loaderArgs;
 
-  console.log('request >>>>>>>>>>>>>', request); 
-
   const session = await updateSession(request, debug);
 
   if (!session) {

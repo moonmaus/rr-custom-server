@@ -15,8 +15,6 @@ const options = {
 };
 
 // Initialize the WorkOS client
-const workos = new WorkOS(WORKOS_API_KEY, options);
-
-console.log('workos >>>>>>>>>>>>>', workos); 
+const workos = new WorkOS(WORKOS_API_KEY, options); 
 
 export { workos };
