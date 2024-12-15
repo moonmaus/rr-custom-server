@@ -14,4 +14,6 @@ async function getAuthorizationUrl(options: GetAuthURLOptions = {}) {
   });
 }
 
+console.log('getAuthorizationUrl >>>>>>>>>>>>>', getAuthorizationUrl);
+
 export { getAuthorizationUrl };

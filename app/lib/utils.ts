@@ -1,0 +1,1 @@
+export type TypedResponse<T = unknown> = Omit<Response, "json"> & { data: T };

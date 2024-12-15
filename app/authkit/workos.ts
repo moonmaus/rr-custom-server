@@ -1,7 +1,7 @@
 import { WorkOS } from '@workos-inc/node';
 import { WORKOS_API_HOSTNAME, WORKOS_API_HTTPS, WORKOS_API_KEY, WORKOS_API_PORT } from './env-variables.js';
 
-const VERSION = '0.7.0';
+const VERSION = '0.7.1';
 
 const options = {
   apiHostname: WORKOS_API_HOSTNAME,
@@ -16,5 +16,7 @@ const options = {
 
 // Initialize the WorkOS client
 const workos = new WorkOS(WORKOS_API_KEY, options);
+
+console.log('workos >>>>>>>>>>>>>', workos); 
 
 export { workos };

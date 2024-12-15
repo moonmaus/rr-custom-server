@@ -9,18 +9,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useRouteLoaderData } from 'react-router';
 
-import type { 
-  ActionFunctionArgs, 
-  LinksFunction, 
-  LoaderFunctionArgs } from 'react-router';
-
 import {
+  type TypedResponse,
   getSignInUrl,
   signOut,
-  authkitLoader } from '~/authkit';
+  authkitLoader } from '~/authkit/index';
 
 import Footer from '~/components/footer';
 import stylesheet from "./app.css?url";
@@ -42,29 +37,29 @@ export const links: Route.LinksFunction = () => [
   { rel: 'stylesheet', href: themes }
 ];
 
-export const loader = (args: LoaderFunctionArgs) =>
-  authkitLoader(
-    args,
-    async () => {
-      const signInUrl = await getSignInUrl();
-      return { signInUrl };
-    },
-    { debug: true }
-  );
+export const loader = (args:  Route.LoaderArgs) =>
+  authkitLoader(args, async () => {
+    const signInUrl = await getSignInUrl();
+    return { signInUrl };
+    }, { debug: true });
 
+type LoaderData = Awaited<ReturnType<typeof loader>> extends TypedResponse<infer D> ? D : never;
 
 export function useRootLoaderData() {
-  return useRouteLoaderData<typeof loader>('root');
+
+  const loaderData = useRouteLoaderData<LoaderData>('root');
+  const { user = null, signInUrl = '' } = loaderData || {};
+
+  return { user, signInUrl };
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+export async function action({ request }:  Route.ActionArgs) {
   return await signOut(request);
 }
 
 function SignInButton({ large = false }: { large?: boolean }) {
-  
-  const rootLoaderData = useRootLoaderData();
-  const { user, signInUrl } = rootLoaderData || {};
+
+  const { user, signInUrl } = useRootLoaderData();
 
   if (user) {
     return (

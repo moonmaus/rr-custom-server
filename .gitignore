@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-.react-router
+.react-router/
 .yarn/install-state.gz
 build
 

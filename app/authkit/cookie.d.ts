@@ -1,3 +1,0 @@
-declare const cookieName = "wos-session";
-declare const getSession: (cookieHeader?: string | null, options?: import("react-router").CookieParseOptions) => Promise<import("react-router").Session<import("react-router").SessionData, import("react-router").SessionData>>, commitSession: (session: import("react-router").Session<import("react-router").SessionData, import("react-router").SessionData>, options?: import("react-router").CookieSerializeOptions) => Promise<string>, destroySession: (session: import("react-router").Session<import("react-router").SessionData, import("react-router").SessionData>, options?: import("react-router").CookieSerializeOptions) => Promise<string>;
-export { cookieName, getSession, commitSession, destroySession };

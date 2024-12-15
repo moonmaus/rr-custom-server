@@ -5,13 +5,12 @@ import type { AccessToken, AuthorizedData, UnauthorizedData, AuthKitLoaderOption
 import { getSession, destroySession, commitSession } from './cookie.js';
 import { getAuthorizationUrl } from './get-authorization-url.js';
 import { workos } from './workos.js';
+import type { TypedResponse } from './index.js';
 
 import { sealData, unsealData } from 'iron-session';
 import { jwtVerify, createRemoteJWKSet, decodeJwt } from 'jose';
 
-export type TypedResponse<T = unknown> = Omit<Response, "json"> & {
-  json(): Promise<T>;
-};
+// export type TypedResponse<T = unknown> = Omit<Response, "json"> & { json(): Promise<T>; };
 
 const JWKS = createRemoteJWKSet(new URL(workos.userManagement.getJwksUrl(WORKOS_CLIENT_ID)));
 
@@ -72,7 +71,10 @@ async function updateSession(request: Request, debug: boolean) {
 }
 
 async function encryptSession(session: Session) {
-  return sealData(session, { password: WORKOS_COOKIE_PASSWORD });
+  return sealData(session, {
+    password: WORKOS_COOKIE_PASSWORD,
+    ttl: 0,
+  });
 }
 
 type LoaderValue<Data> = Response | TypedResponse<Data> | NonNullable<Data> | null;
@@ -115,6 +117,9 @@ async function authkitLoader<Data = unknown>(
   const { ensureSignedIn = false, debug = false } = typeof loaderOrOptions === 'object' ? loaderOrOptions : options;
 
   const { request } = loaderArgs;
+
+  console.log('request >>>>>>>>>>>>>', request); 
+
   const session = await updateSession(request, debug);
 
   if (!session) {
